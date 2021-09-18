@@ -1,0 +1,9 @@
+.idea/
+*/.idea/
+result/
+*/__pycache__/
+nohup.out
+*.txt
+*.json
+*.tar
+*.tar.gz
