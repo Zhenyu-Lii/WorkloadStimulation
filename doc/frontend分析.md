@@ -152,7 +152,7 @@ w.Header().Set("Location", referer) // homeHandler or the last handler?
 
 ### 其他注意事项
 
-* fe.getRecommendations()会在frontend中继续调用fe.getProduct(ctx, v)，所以在trace日志中,如果存在"Frontend/Recv."->"ListRecommendations"，将同时存在"Frontend/Recv."->"GetProduct"。参见源代码src/frontend/rpc.go以及"trace日志分析.md"中的placeOrderHandler部分。
+* **frontend存在的顺序调用关系**（目前只发现这一个特殊的调用）：fe.getRecommendations()会在frontend中先调用ListRecommendations，再调用fe.getProduct(ctx, v)，所以在trace日志中,如果存在"Frontend/Recv."->"ListRecommendations"，将同时存在"Frontend/Recv."->"GetProduct"。参见源代码src/frontend/rpc.go以及"trace日志分析.md"中的placeOrderHandler部分。
 
-* service内部同样存在相互的调用关系，但是这些调用与frontend不会直接构成span。例如，placeOrderHandler调用PlaceOrder()；在checkoutservice的内部，PlaceOrder()将调用EmptyCart()。参见源代码src/checkoutservice/main.go。
+* **service内部存在的相互调用关系：**例如，placeOrderHandler调用PlaceOrder()，PlaceOrder()在checkoutservice内部调用cartservice的EmptyCart()。参见源代码src/checkoutservice/main.go。
 

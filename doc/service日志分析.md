@@ -290,3 +290,5 @@ GetCartAsync called with userId=76eece30-664d-4a1a-a926-8c63cc581d2e
 
 * session 与 userId 一一对应。
 * 包含session的日志都是"http.req.method"的形式，也都是Locust中的user behavior相关日志
+* 包含session的日志一共有2305676条（frontend-log collection）
+* 不同的用户session一共有30436个（session collection）
