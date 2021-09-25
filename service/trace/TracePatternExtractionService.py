@@ -4,13 +4,13 @@ import sys
 sys.path.append("/workspace/code")
 
 import json
-from dao.DataHandler import DataHandler
+from dao.TraceHandler import TraceHandler
 from utils.TraceLOUDSEncoder import TraceLOUDSEncoder
 
 
-class TracePatternExtraction:
+class TracePatternExtractionService:
     def __init__(self):
-        self.data_handler = DataHandler()
+        self.trace_handler = TraceHandler()
         self.trace_LOUDS_encoder = TraceLOUDSEncoder()
 
         self.trace_pattern_time_series = dict()
@@ -22,13 +22,13 @@ class TracePatternExtraction:
             os.mkdir(self.result_base_path)
 
     def extract_shape_pattern(self):
-        trace_id_list = self.data_handler.get_trace_id_list()
+        trace_id_list = self.trace_handler.get_trace_id_list()
         i = 0
         for trace_id in trace_id_list:
             i += 1
             if i % 1000 == 0:
                 print(str(i) + '\n')
-            span_list = self.data_handler.get_trace_spans_by_id(trace_id)
+            span_list = self.trace_handler.get_trace_spans_by_id(trace_id)
             if isinstance(span_list, list):
                 encoding_result_dict = self.trace_LOUDS_encoder.LOUDS_encoding(span_list)
                 identifier = encoding_result_dict['operation_index'] + '::' + encoding_result_dict['n_coding']
@@ -50,5 +50,5 @@ class TracePatternExtraction:
 
 
 if __name__ == '__main__':
-    trace_pattern_extraction = TracePatternExtraction()
+    trace_pattern_extraction = TracePatternExtractionService()
     trace_pattern_extraction.extract_shape_pattern()

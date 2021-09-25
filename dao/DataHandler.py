@@ -2,21 +2,26 @@ import os
 import pymongo
 import json
 import collections
+from config.MongoConfig import mongo_config
 
 
 class DataHandler:
+    """
+    save data in the collections
+    """
+
     def __init__(self):
         temp_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
         self.log_base_path = os.path.join(temp_path, 'dataset', '2021-Bizseer', '2021-07-09', 'log')
         self.trace_base_path = os.path.join(temp_path, 'dataset', '2021-Bizseer', '2021-07-09', 'trace')
 
-        self.mongo_client = 'mongodb://mongoadmin:mongoadmin@172.17.0.1:27017'
-        self.trace_db = 'hipstershop-trace'
-        self.trace_collection = 'span'
-        self.log_db = 'hipstershop-log'
-        self.service_log_collection = 'service-log'
-        self.service_frontend_log_collection = 'frontend-log'  # 本质上是service-log经提取后的子集
-        self.session_log_collection = 'session'  # 每一个文档代表一个session下的所有用户行为
+        self.mongo_client = mongo_config.mongo_client
+        self.trace_db = mongo_config.trace_db
+        self.trace_collection = mongo_config.trace_collection
+        self.log_db = mongo_config.log_db
+        self.service_log_collection = mongo_config.service_log_collection
+        self.service_frontend_log_collection = mongo_config.service_frontend_log_collection
+        self.session_log_collection = mongo_config.session_log_collection
 
     def save_trace_log_in_mongo(self):
         client = pymongo.MongoClient(self.mongo_client)
@@ -87,31 +92,7 @@ class DataHandler:
         client.close()
 
 
-    def get_trace_id_list(self):
-        """
-        获取全部traceID
-        :return: traceID列表
-        """
-        result = []
-        client = pymongo.MongoClient(self.mongo_client)
-        span_db = client[self.trace_db][self.trace_collection]
-        for temp in span_db.aggregate([{'$group': {'_id': '$traceID'}}]):
-            result.append(temp['_id'])
-        client.close()
-        return result
 
-    def get_trace_spans_by_id(self, traceID):
-        """
-        根据traceID查找整个调用链的span信息
-        :return: span列表
-        """
-        result = []
-        client = pymongo.MongoClient(self.mongo_client)
-        span_db = client[self.trace_db][self.trace_collection]
-        for temp in span_db.find({"traceID": traceID}):
-            result.append(temp)
-        client.close()
-        return result
 
 if __name__ == "__main__":
     data_handler = DataHandler()

@@ -1,4 +1,7 @@
 class Trace:
+    """
+    traceID相同的span
+    """
 
     def __init__(self, traceID):
         self.__traceID = traceID

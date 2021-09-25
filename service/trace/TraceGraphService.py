@@ -1,7 +1,7 @@
 import collections
 import networkx as nx
 import matplotlib.pyplot as plt
-from dao.DataHandler import DataHandler
+from dao.TraceHandler import TraceHandler
 from entity.Span import Span
 from entity.Trace import Trace
 
@@ -9,9 +9,9 @@ from entity.Trace import Trace
 {'operationName':{$regex:/Empty/}}
 """
 
-class TraceGraph:
+class TraceGraphService:
     def __init__(self):
-        self.data_handler = DataHandler()
+        self.trace_handler = TraceHandler()
 
     def create_graph(self, trace):
         g = nx.DiGraph()
@@ -58,7 +58,7 @@ class TraceGraph:
 
     def draw_trace(self, traceID):
         trace = Trace(traceID=traceID)
-        span_list = self.data_handler.get_trace_spans_by_id(traceID)
+        span_list = self.trace_handler.get_trace_spans_by_id(traceID)
         for span in span_list:
             traceID = span["traceID"]
             spanID = span["spanID"]
@@ -76,6 +76,6 @@ class TraceGraph:
         self.draw(g)
 
 if __name__ == '__main__':
-    trace_graph = TraceGraph()
+    trace_graph = TraceGraphService()
     trace_graph.draw_trace('8ead3831c21ed055a29295ea6776d62c')
 

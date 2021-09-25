@@ -1,4 +1,9 @@
 class Span:
+    """
+    database: histershop-trace
+    collection: span
+    for each row in span
+    """
 
     def __init__(self, traceID, spanID, operationName, parentSpanID, startTime, duration):
         self.traceID = traceID
