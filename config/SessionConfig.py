@@ -1,6 +1,3 @@
-import threading
-
-
 class SessionConfig:
 
     def __init__(self):
@@ -25,9 +22,9 @@ class SessionConfig:
         message_dict["view user cart"] = 3
         message_dict["adding to cart"] = 4
         message_dict["placing order"] = 5
-        message_dict["order placed"] = 5
+        # 不再通过message_dict["order placed"] = 5保留该重复记录项
         message_texts = ["home", "setting currency", "serving product page",
-                         "view user cart", "adding to cart", "checkout"]
+                         "view user cart", "adding to cart", "placing order"]
         return message_dict, message_texts
 
 session_config = SessionConfig()

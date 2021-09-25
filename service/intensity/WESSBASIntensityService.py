@@ -1,12 +1,10 @@
-import pandas as pd
-from datetime import datetime
 import numpy as np
 import collections
 import time
 import matplotlib.pyplot as plt
 from dao.SessionHandler import SessionHandler
 from config.SessionConfig import session_config
-from service.representation.BaseRepresentationService import BaseRepresentationService
+from service.cluster.KmeansClusterService import KMeansClusterService
 
 
 class WESSBASIntensityService:
@@ -15,13 +13,13 @@ class WESSBASIntensityService:
     """
 
     def __init__(self):
-        session_handler = SessionHandler()
-        session_group = session_handler.get_session_collection()
-        self.sessions = session_group.sessions
         self.message_texts = session_config.message_texts
         self.message_dict = session_config.message_dict
 
     def workload_intensity(self):
+        session_handler = SessionHandler()
+        session_group = session_handler.get_session_collection()
+        self.sessions = session_group.sessions
         session_start = collections.defaultdict(list)
         for session_id, user_behaviors in self.sessions.items():
             for user_behavior in user_behaviors:
@@ -39,9 +37,16 @@ class WESSBASIntensityService:
         plt.legend()
         plt.savefig("intensity.png")
 
+    def behavior_mix(self):
+        kmeans_cluster = KMeansClusterService()
+        results = kmeans_cluster.cluster()
+        count = [len(v) for v in results.values()]
+        prob = [round(v / sum(count), 4) for v in count]
+        print("behavior mix for one day:\n{}".format(prob))
 
 
 
 if __name__ == "__main__":
     wessbas_intensity = WESSBASIntensityService()
-    wessbas_intensity.workload_intensity()
+    # wessbas_intensity.workload_intensity()
+    wessbas_intensity.behavior_mix()

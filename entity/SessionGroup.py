@@ -3,14 +3,12 @@ from config.SessionConfig import session_config
 
 class SessionGroup:
     """
+    对应
     database: histershop-log
     collection: session
     """
 
     def __init__(self):
-        """
-        :param doc: mongo session中的doc
-        """
         self.sessions = {}  # key: session_id, value: user_behaviors
 
     def add_session(self, doc):
@@ -22,7 +20,8 @@ class SessionGroup:
 
     def shrink(self):
         """
-        由于每个用户行为在日志中均对应3～4条user behavior，此处去除冗余的user behavior
+        由于每个用户行为在日志中均对应3～4条user behavior（request started、xx、request complete），
+        此处去除冗余的user behavior
         :return:
         """
         _sessions = {}

@@ -15,6 +15,10 @@ class SessionHandler:
         self.session_log_collection = mongo_config.session_log_collection
 
     def get_session_collection(self):
+        """
+        获取全部session
+        :return:
+        """
         session_list = SessionGroup()
         client = pymongo.MongoClient(self.mongo_client)
         span_db = client[self.log_db][self.session_log_collection]

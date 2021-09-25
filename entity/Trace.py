@@ -1,6 +1,6 @@
 class Trace:
     """
-    traceID相同的span
+    traceID相同的所有span
     """
 
     def __init__(self, traceID):

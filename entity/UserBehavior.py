@@ -2,9 +2,11 @@ from config.SessionConfig import session_config
 
 class UserBehavior:
     """
+    对应
     database: histershop-log
     collection: session
     column: user_behaviors
+    中的每一个元素
     """
 
     def __init__(self, doc):

@@ -1,7 +1,6 @@
 from sklearn.cluster import KMeans
 import numpy as np
 import collections
-from config.SessionConfig import session_config
 from service.representation.WESSBASRepresentationService import WESSBASRepresentationService
 
 class KMeansClusterService:

@@ -1,8 +1,9 @@
 class Span:
     """
+    对应
     database: histershop-trace
     collection: span
-    for each row in span
+    中的每一个文档
     """
 
     def __init__(self, traceID, spanID, operationName, parentSpanID, startTime, duration):
