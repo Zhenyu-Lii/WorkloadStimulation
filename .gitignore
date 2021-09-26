@@ -7,3 +7,4 @@ nohup.out
 *.json
 *.tar
 *.tar.gz
+.DS_Store/
