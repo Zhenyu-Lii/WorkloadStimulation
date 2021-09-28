@@ -1,18 +1,27 @@
 from dao.SessionHandler import SessionHandler
 from config.SessionConfig import session_config
+from service.transition.BaseTransitionService import BaseTransitionService
 
-class SimpleTransitionService:
+class SimpleTransitionService(BaseTransitionService):
     """
     最直观的transition方法
     """
 
-    def __init__(self):
-        session_handler = SessionHandler()
-        session_group = session_handler.get_session_collection()
-        session_group.shrink()
-        self.sessions = session_group.sessions
+    def __init__(self, sessions):
+        self.sessions = sessions
         self.message_texts = session_config.message_texts
         self.message_dict = session_config.message_dict
+
+    def build(self):
+        self.start_prob = self.calc_start_prob()
+        self.transition_prob = self.calc_transition_prob()
+        self.end_prob = self.calc_end_prob()
+
+    # todo: sample a sequence from the transition model
+    def sample(self):
+
+        pass
+
 
     def calc_start_prob(self):
         """
@@ -28,6 +37,7 @@ class SimpleTransitionService:
                 break
         start_prob = [round(v / sum(start_count), 4) for v in start_count]
         print("start prob:\n {}".format(start_prob))
+        return start_prob
 
     def calc_transition_prob(self):
         """
@@ -45,6 +55,7 @@ class SimpleTransitionService:
                 last = cur
         transition_prob = [[round(v / sum(row), 4) if sum(row) else 0 for v in row] for row in transition_count]
         print("transition prob:\n {}".format(transition_prob))
+        return transition_prob
 
     def calc_end_prob(self):
         """
@@ -60,9 +71,17 @@ class SimpleTransitionService:
                 break
         end_prob = [round(v / sum(end_count), 4) for v in end_count]
         print("end prob:\n {}".format(end_prob))
+        return end_prob
 
 if __name__ == "__main__":
-    simple_transition = SimpleTransitionService()
+    # session读取
+    session_handler = SessionHandler()
+    session_collection = session_handler.get_session_collection()
+    session_collection.shrink()
+    sessions = session_collection.sessions
+
+
+    simple_transition = SimpleTransitionService(session)
     simple_transition.calc_start_prob()
     simple_transition.calc_transition_prob()
     simple_transition.calc_end_prob()
