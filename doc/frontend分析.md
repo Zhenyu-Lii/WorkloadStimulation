@@ -15,7 +15,7 @@ frontend在main.go中提供了以下路由，每条路由都有对应的log，�
 //以下两条在locust中没有被执行
 	r.HandleFunc("/cart/empty", svc.emptyCartHandler).Methods(http.MethodPost)
 	r.HandleFunc("/logout", svc.logoutHandler).Methods(http.MethodGet)
-//以下三条看起来没什么用
+//以下三条在流量模拟中没什么用
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 	r.HandleFunc("/robots.txt", func(w http.ResponseWriter, _ *http.Request) { fmt.Fprint(w, "User-agent: *\nDisallow: /") })
 	r.HandleFunc("/_healthz", func(w http.ResponseWriter, _ *http.Request) { fmt.Fprint(w, "ok") })

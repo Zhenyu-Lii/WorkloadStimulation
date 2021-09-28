@@ -1,6 +1,6 @@
 import pymongo
 from config.MongoConfig import mongo_config
-from entity.SessionGroup import SessionGroup
+from entity.SessionCollection import SessionCollection
 
 
 class SessionHandler:
@@ -19,12 +19,12 @@ class SessionHandler:
         获取全部session
         :return:
         """
-        session_list = SessionGroup()
+        session_collection = SessionCollection()
         client = pymongo.MongoClient(self.mongo_client)
         span_db = client[self.log_db][self.session_log_collection]
         for i, doc in enumerate(span_db.find(), start=1):
-            session_list.add_session(doc)
+            session_collection.add_session(doc)
             if i % 10000 == 0:
                 print("{} sessions has been loaded".format(i))
         client.close()
-        return session_list
+        return session_collection

@@ -1,7 +1,7 @@
 from entity.UserBehavior import UserBehavior
 from config.SessionConfig import session_config
 
-class SessionGroup:
+class SessionCollection:
     """
     对应
     database: histershop-log
@@ -21,7 +21,8 @@ class SessionGroup:
     def shrink(self):
         """
         由于每个用户行为在日志中均对应3～4条user behavior（request started、xx、request complete），
-        此处去除冗余的user behavior
+        此处去除冗余的user behavior。
+        对于（request started、placing order、order placed、request complete），只保留了placing order
         :return:
         """
         _sessions = {}
