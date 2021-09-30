@@ -6,15 +6,14 @@ class BaseTransitionService:
     @abstractmethod
     def build(self):
         """
-        构建模型
-        :return:
+        构建概率图形式的behavior model
         """
         pass
 
     @abstractmethod
     def sample(self):
         """
-        从构建的模型中采样
-        :return: [list of UserBehavior]
+        从构建的behavior model中采样
+        输出：[list of UserBehavior]
         """
         pass

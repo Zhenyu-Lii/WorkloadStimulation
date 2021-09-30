@@ -33,6 +33,7 @@ class WESSBASIntensityService:
                 s = timestamp.tm_sec
                 total_s = h * 3600 + m * 60 + s
                 session_intensity[total_s].append(session_id)
+                break
         intensity = np.zeros(24 * 3600, dtype=int)
         for k, v in session_intensity.items():
             intensity[k] = len(v)
