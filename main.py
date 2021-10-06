@@ -34,5 +34,5 @@ for label in LABELS:
     simple_transition = SimpleTransitionService(sessions_for_one_label)
     simple_transition.build()
     label2transition[label] = simple_transition
-# todo:根据label2prob、label2transition采样，生成待执行的session
+# todo:根据intensity、label2prob、label2transition采样，生成待执行的session
 
