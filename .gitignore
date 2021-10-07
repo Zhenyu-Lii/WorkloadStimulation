@@ -2,6 +2,7 @@
 */.idea/
 result/
 */__pycache__/
+__pycache__/
 nohup.out
 *.txt
 *.json
