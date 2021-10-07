@@ -28,3 +28,19 @@ class SessionHandler:
                 print("{} sessions has been loaded".format(i))
         client.close()
         return session_collection
+
+    def get_test_session_collection(self):
+        """
+        获取部分用于测试的session
+        """
+        session_collection = SessionCollection()
+        client = pymongo.MongoClient(self.mongo_client)
+        span_db = client[self.log_db][self.session_log_collection]
+        for i, doc in enumerate(span_db.find(), start=1):
+            session_collection.add_session(doc)
+            if i % 1000 == 0:
+                print("1000 sessions has been loaded.")
+                break
+        client.close()
+        return session_collection
+
