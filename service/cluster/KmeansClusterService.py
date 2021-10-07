@@ -1,8 +1,12 @@
 from sklearn.cluster import KMeans
 import numpy as np
 import collections
+
+from dao.SessionHandler import SessionHandler
 from service.representation.WESSBASRepresentationService import WESSBASRepresentationService
+from service.representation.SeqenceEmbeddingService import SequenceEmbeddingService
 from service.cluster.BaseClusterService import BaseClusterService
+
 
 class KMeansClusterService(BaseClusterService):
     """
@@ -20,8 +24,13 @@ class KMeansClusterService(BaseClusterService):
         labels = estimator.labels_
         centroids = estimator.cluster_centers_
         LABELS = list(range(class_num))
-        return labels, centroids, LABELS
-
+        label_num ={}
+        for label in labels:
+            if label not in label_num.keys():
+                label_num[label] = 1
+            else:
+                label_num[label] += 1
+        return labels, centroids, LABELS, label_num
 
 
 if __name__ == "__main__":
@@ -33,8 +42,10 @@ if __name__ == "__main__":
 
     # session表征
     represent_service = WESSBASRepresentationService(sessions)
+    # represent_service = SequenceEmbeddingService(sessions)
     sessionid2vec = represent_service.represent()
 
     # session聚类
     kmeans_cluster = KMeansClusterService(sessionid2vec)
-    labels, centroids, LABELS = kmeans_cluster.cluster()
+    labels, centroids, LABELS, label_num = kmeans_cluster.cluster()
+    print(label_num)
