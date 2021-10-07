@@ -1,7 +1,7 @@
 class MongoConfig:
 
     def __init__(self):
-        self.mongo_client = 'mongodb://mongoadmin:mongoadmin@172.17.0.1:27017'
+        self.mongo_client = 'mongodb://mongoadmin:mongoadmin@10.60.38.173:27017'
         self.trace_db = 'hipstershop-trace'
         self.trace_collection = 'span'
         self.log_db = 'hipstershop-log'
