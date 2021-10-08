@@ -3,9 +3,11 @@
 result/
 */__pycache__/
 __pycache__/
+**/__pycache__/
 nohup.out
 *.txt
 *.json
 *.tar
 *.tar.gz
 .DS_Store
+*.png
