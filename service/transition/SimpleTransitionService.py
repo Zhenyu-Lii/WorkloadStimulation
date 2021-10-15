@@ -81,7 +81,7 @@ if __name__ == "__main__":
     sessions = session_collection.sessions
 
 
-    simple_transition = SimpleTransitionService(session)
+    simple_transition = SimpleTransitionService(sessions)
     simple_transition.calc_start_prob()
     simple_transition.calc_transition_prob()
     simple_transition.calc_end_prob()
