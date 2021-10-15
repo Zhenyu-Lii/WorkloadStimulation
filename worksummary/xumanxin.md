@@ -35,3 +35,28 @@ timestamp 的类型需为 arrow.arrow.Arrow，遍历build_workload_intensity() �
 
 - 得到thinktime的正态分布，从而考虑一个session内存在多次请求。
 
+## 2021.10.8 - 2021.10.14
+### 工作简述
+#### 1.阅读了Limbo有关论文，设想了通过参数模拟流量的可能方案
+阅读了以下limbo论文：
+- LIMBO: A Tool For Modeling Variable Load Intensities
+Demo Paper
+- Modeling Variations in Load Intensity over Time
+- Modeling and Extracting Load Intensity Profiles
+
+事实上这几篇文章的作者为同一个人
+  
+论文中提出了两大概念：
+- DLIM：笛卡尔负载强度元模型（DLIM）提供了一种结构化和可访问的方式，通过编辑和组合数学函数来描述一段时间内的负载强度。
+- HLDLIM：高层笛卡尔负载强度元模型（HLDLIM）允许使用少数参数来描述负载变化。
+
+目前初步设想的解决方案步骤如下：
+1. 根据原始日志文件生成原始时间序列
+2. 从原始时间序列中分解出DLIM/HLDLIM特征
+3. 调整DLIM/HLDLIM特征（对外暴露的API）
+4. 合成新的原始时间序列
+
+### TODO
+1. 对于解决方案的可行性的进一步确认
+2. 确定从时间序列中提取出DLIM还是HLDLIM
+3. 代码复现解决方案
